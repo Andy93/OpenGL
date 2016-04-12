@@ -16,7 +16,14 @@ void clearScreen(){
 }
 
 void createRectangle(){
-	
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.7,-0.5);
+	glVertex2f(-0.7,0.5);
+	glVertex2f(0.5,0.5);
+	glVertex2f(0.5,-0.5);
+	glEnd();
+			
+	glFlush();
 }
 
 void line(){
@@ -48,14 +55,7 @@ void menu(int op) {
 		
 		// rectangle
 		case 'c':
-			glBegin(GL_POLYGON);
-				glVertex2f(-0.7,-0.5);
-				glVertex2f(-0.7,0.5);
-				glVertex2f(0.5,0.5);
-				glVertex2f(0.5,-0.5);
-			glEnd();
-			
-			glFlush();
+			createRectangle();
 			break;
 		
 		//polygon
@@ -77,6 +77,8 @@ void menu(int op) {
 int main(int argc, char **argv){
 	
 	glutInit(&argc, argv);
+	glutInitWindowSize(500,500);
+	glutInitWindowPosition(500,200);
 	glutCreateWindow("simple");
 	glutDisplayFunc(display);
 	
