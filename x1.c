@@ -26,11 +26,11 @@ void createRectangle(){
 	glFlush();
 }
 
-void line(){
+void createLine(){
 	
 }
 
-void polygon(){
+void createPolygon(){
 	
 }
 
@@ -50,7 +50,7 @@ void menu(int op) {
 			
 		//line
 		case 'b':
-			exit(0);
+			createLine();
 			break;
 		
 		// rectangle
@@ -60,7 +60,7 @@ void menu(int op) {
 		
 		//polygon
 		case 'd':
-			exit(0);
+			createPolygon();
 			break;
 		
 		case 'e':
