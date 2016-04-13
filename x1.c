@@ -230,6 +230,7 @@ void MyReshape(GLsizei w, GLsizei h)
 
 int main(int argc, char **argv){
 	
+	//MAIN WINDOW
 	glutInit(&argc, argv);
 	glutInitWindowSize(500,500);
 	glutInitWindowPosition(500,200);
@@ -237,11 +238,11 @@ int main(int argc, char **argv){
 	glutDisplayFunc(display);
 	glutReshapeFunc(MyReshape);
 	
-	//SUBMENU for Shape
+	//SUBMENU for Clear Screen
 	int clearSubMenu = glutCreateMenu(menu);
 	glutAddMenuEntry("Clear Screen", 'z');
 	
-	//SUBMENU for Shape
+	//SUBMENU for Shapes
 	int shapeSubMenu = glutCreateMenu(menu);
 	glutAddMenuEntry("Point", 'a');
 	glutAddMenuEntry("Line", 'b');
@@ -264,7 +265,7 @@ int main(int argc, char **argv){
 	
 	//SUBMENU for Transparency
 	int transSubMenu = glutCreateMenu(menu);
-	glutAddMenuEntry("Transparency", 'f');
+	glutAddMenuEntry("Transparency", 'p');
 
 	//MAIN MENU w/ submenus
 	glutCreateMenu(menu);
@@ -274,6 +275,11 @@ int main(int argc, char **argv){
 	glutAddSubMenu("Transparency", transSubMenu);
 	glutAddMenuEntry("Quit", 'q');
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	
+	//Colour Pallete
+	//glutCreateWindow("Colour Pallete");
+	//glutDisplayFunc(colourPallete);
 
+	//end
 	glutMainLoop();
 }
