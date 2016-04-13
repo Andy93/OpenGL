@@ -39,10 +39,6 @@ void colourPallette(void){
        glutSwapBuffers();
 }
 
-//void readColourPallette(void){
-	//glReadPixels
-//}
-
 void clearScreen(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	glFlush();
@@ -59,7 +55,6 @@ void drawRectangle(int x1,int y1,int x2,int y2)
 	
 	glFlush();
 }
-
 
 void createRectangle(GLint button, GLint state, GLint x, GLint y)
 {
@@ -131,10 +126,8 @@ void createPoint(GLint button, GLint state, GLint x, GLint y){
 }
 
 void polygon(){
-	//do later
+	//do later maybe triangle, pentagon, hexagon, heptagon, octagon, nonagon, decagon.
 }
-
-
 
 //menu options for all cases
 void menu(int op) {
@@ -357,7 +350,7 @@ int main(int argc, char **argv){
 	glutAddSubMenu("Shape", shapeSubMenu);
 	glutAddSubMenu("Colour", colourSubMenu);
 	glutAddSubMenu("Transparency", transSubMenu);
-	glutAddMenuEntry("Quit", 'q');
+	glutAddMenuEntry("EXIT", 'q');
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	
 	//Colour Pallete
