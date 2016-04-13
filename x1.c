@@ -39,6 +39,10 @@ void colourPallette(void){
        glutSwapBuffers();
 }
 
+//void readColourPallette(void){
+	//glReadPixels
+//}
+
 void clearScreen(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	glFlush();
@@ -309,7 +313,7 @@ int main(int argc, char **argv){
 	glutDisplayFunc(display);
 	glutReshapeFunc(MyReshape);
 	
-	//SUBMENU for Shape
+	//SUBMENU for Clear Screen
 	int clearSubMenu = glutCreateMenu(menu);
 	glutAddMenuEntry("Clear Screen", 'z');
 	
@@ -346,7 +350,6 @@ int main(int argc, char **argv){
 	glutAddMenuEntry("0.3", '3');
 	glutAddMenuEntry("0.2", '2');
 	glutAddMenuEntry("0.1", '1');
-	
 
 	//MAIN MENU w/ submenus
 	glutCreateMenu(menu);
@@ -358,11 +361,11 @@ int main(int argc, char **argv){
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	
 	//Colour Pallete
+	glutInitWindowSize(500,500);
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("Colour Pallette to choose colour");
 	glutDisplayFunc(colourPallette);
 	//glutReshapeFunc(MyReshape);
 	
-
 	glutMainLoop();
 }
