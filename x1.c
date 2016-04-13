@@ -1,4 +1,5 @@
 #include <GL/gl.h>
+#include <stdio.h>
 #include <GL/glext.h>
 #include <H:/lab/glut.h>
 
@@ -7,6 +8,7 @@ GLfloat hh;
 
 int first = 0;
 int colour = 0;
+float transparency = 1.0;
 
 void display(void)
 {
@@ -15,11 +17,26 @@ void display(void)
 	glPointSize(3.0);
 	
 	if(colour == 0){
-		glColor3f(0.7,0.7,0.7);	
+		glColor4f(0.7,0.7,0.7, transparency);	
 	}
 
 	glFlush();
 	return;
+}
+
+void colourPallette(void){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+       glBegin(GL_QUADS);
+               glColor3f(0.5f, 0.0f, 1.0f); // make this vertex purple
+               glVertex2f(-0.75, 0.75);
+               glColor3f(1.0f, 0.0f, 0.0f); // make this vertex red
+               glVertex2f(-0.75, -0.75);
+               glColor3f(0.0f, 1.0f, 0.0f); // make this vertex green
+               glVertex2f(0.75, -0.75);
+               glColor3f(1.0f, 1.0f, 0.0f); // make this vertex yellow
+               glVertex2f(0.75, 0.75);
+       glEnd();
+       glutSwapBuffers();
 }
 
 void clearScreen(){
@@ -110,8 +127,10 @@ void createPoint(GLint button, GLint state, GLint x, GLint y){
 }
 
 void polygon(){
-	
+	//do later
 }
+
+
 
 //menu options for all cases
 void menu(int op) {
@@ -149,71 +168,122 @@ void menu(int op) {
 			exit(0);
 			break;
 		
-		//COLOURS
+		//COLOURS - source : http://www.cs.brandeis.edu/~cs155/OpenGL%20Lecture_02.pdf
 		//red
 		case 'e':
-			glColor3f(1.0,0.0,0.0);
+			glColor4f(1.0,0.0,0.0,transparency);
 			colour = 1;
 			break;
 		
 		//orange
 		case 'f':
-			glColor3f(0.5,0.0,0.0);	
+			glColor4f(1.0,0.5,0.0,transparency);	
 			colour = 1;
 			break;
 		
 		//yellow
 		case 'g':
-			glColor3f(1.0,1.0,0.0);	
+			glColor4f(1.0,1.0,0.0,transparency);	
 			colour = 1;
 			break;
 			
 		//green
 		case 'h':
-			glColor3f(0.0,1.0,0.0);
+			glColor4f(0.0,1.0,0.0,transparency);
 			colour = 1;			
 			break;
 		
 		//blue
 		case 'i':
-			glColor3f(0.0,0.0,1.0);
+			glColor4f(0.0,0.0,1.0,transparency);
 			colour = 1;
 			break;
 		
 		//cyan
 		case 'j':
-			glColor3f(0.0,1.0,1.0);
+			glColor4f(0.0,1.0,1.0,transparency);
 			colour = 1;
 			break;
 		
 		//magenta
 		case 'k':
-			glColor3f(1.0,0.0,1.0);
+			glColor4f(1.0,0.0,1.0,transparency);
 			colour = 1;
 			break;
 		
 		//grey
 		case 'l':
-			glColor3f(0.5,0.5,0.5);
+			glColor4f(0.5,0.5,0.5,transparency);
 			colour = 1;
 			break;
 			
 		//brown
 		case 'm':
-			glColor3f(1.0,1.0,1.0);
+			glColor4f(0.5,0.0,0.0,transparency);
 			colour = 1;
 			break;
 			
 		//black
 		case 'n':
-			glColor3f(0.0,0.0,0.0);
+			glColor4f(0.0,0.0,0.0,transparency);
 			colour = 1;
 			break;
 		
 		//white
 		case 'o':
-			glColor3f(1.0,1.0,1.0);
+			glColor4f(1.0,1.0,1.0,transparency);
 			colour = 1;
+			break;
+			
+		//TRANSPARENCY
+		//1.0
+		case 'x':
+			transparency = 1.0;
+			break;
+			
+		//0.9
+		case '9':
+			transparency = 0.9;
+			break;
+			
+		//0.8
+		case '8':
+			transparency = 0.8;
+			break;
+			
+		//0.7
+		case '7':
+			transparency = 0.7;
+			break;
+			
+		//0.6
+		case '6':
+			transparency = 0.6;
+			break;
+			
+		//0.5
+		case '5':
+			transparency = 0.5;
+			break;
+			
+		//0.4
+		case '4':
+			transparency = 0.4;
+			break;
+			
+		//0.3
+		case '3':
+			transparency = 0.3;
+			break;
+			
+		//0.2
+		case '2':
+			transparency = 0.2;
+			break;
+		
+		//0.1
+		case '1':
+			transparency = 0.1;
 			break;
 	}
 }
@@ -230,19 +300,20 @@ void MyReshape(GLsizei w, GLsizei h)
 
 int main(int argc, char **argv){
 	
-	//MAIN WINDOW
 	glutInit(&argc, argv);
 	glutInitWindowSize(500,500);
 	glutInitWindowPosition(500,200);
-	glutCreateWindow("simple");
+	glutCreateWindow("Andrew O'Neill - 11424222");
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glutDisplayFunc(display);
 	glutReshapeFunc(MyReshape);
 	
-	//SUBMENU for Clear Screen
+	//SUBMENU for Shape
 	int clearSubMenu = glutCreateMenu(menu);
 	glutAddMenuEntry("Clear Screen", 'z');
 	
-	//SUBMENU for Shapes
+	//SUBMENU for Shape
 	int shapeSubMenu = glutCreateMenu(menu);
 	glutAddMenuEntry("Point", 'a');
 	glutAddMenuEntry("Line", 'b');
@@ -265,11 +336,21 @@ int main(int argc, char **argv){
 	
 	//SUBMENU for Transparency
 	int transSubMenu = glutCreateMenu(menu);
-	glutAddMenuEntry("Transparency", 'p');
+	glutAddMenuEntry("1.0", 'x');
+	glutAddMenuEntry("0.9", '9');
+	glutAddMenuEntry("0.8", '8');
+	glutAddMenuEntry("0.7", '7');
+	glutAddMenuEntry("0.6", '6');
+	glutAddMenuEntry("0.5", '5');
+	glutAddMenuEntry("0.4", '4');
+	glutAddMenuEntry("0.3", '3');
+	glutAddMenuEntry("0.2", '2');
+	glutAddMenuEntry("0.1", '1');
+	
 
 	//MAIN MENU w/ submenus
 	glutCreateMenu(menu);
-	glutAddSubMenu("Clear", clearSubMenu);
+	glutAddMenuEntry("Clear", 'z');
 	glutAddSubMenu("Shape", shapeSubMenu);
 	glutAddSubMenu("Colour", colourSubMenu);
 	glutAddSubMenu("Transparency", transSubMenu);
@@ -277,9 +358,11 @@ int main(int argc, char **argv){
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	
 	//Colour Pallete
-	//glutCreateWindow("Colour Pallete");
-	//glutDisplayFunc(colourPallete);
+	glutInitWindowPosition(100,100);
+	glutCreateWindow("Colour Pallette to choose colour");
+	glutDisplayFunc(colourPallette);
+	//glutReshapeFunc(MyReshape);
+	
 
-	//end
 	glutMainLoop();
 }
