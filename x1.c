@@ -5,6 +5,11 @@
 
 GLfloat xi,xf,yi,yf;
 GLfloat hh;
+GLfloat array[3]; 
+float r,g,b;
+
+int width = 500;
+int height = 500;
 
 int first = 0;
 int colour = 0;
@@ -28,13 +33,13 @@ void colourPallette(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
        glBegin(GL_QUADS);
                glColor3f(0.5f, 0.0f, 1.0f); // make this vertex purple
-               glVertex2f(-0.75, 0.75);
+               glVertex2f(-1.0, 1.0);
                glColor3f(1.0f, 0.0f, 0.0f); // make this vertex red
-               glVertex2f(-0.75, -0.75);
+               glVertex2f(-1.0, -1.0);
                glColor3f(0.0f, 1.0f, 0.0f); // make this vertex green
-               glVertex2f(0.75, -0.75);
+               glVertex2f(1.0, -1.0);
                glColor3f(1.0f, 1.0f, 0.0f); // make this vertex yellow
-               glVertex2f(0.75, 0.75);
+               glVertex2f(1.0, 1.0);
        glEnd();
        glutSwapBuffers();
 }
@@ -76,6 +81,23 @@ void createRectangle(GLint button, GLint state, GLint x, GLint y)
 	}
 	return;
 }
+//void putColour(float r,float g,float b){
+//	glColor4f(r,g,b,transparency);
+//colour = 1;
+	
+//}
+
+void touchPallette(GLint button, GLint state, GLint x, GLint y){
+	if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON)
+	{	
+		yi=hh-y;
+		glReadPixels(x,yi,1,1,GL_RGB,GL_FLOAT,array);
+			r = array[0];
+			g = array[1];
+			b = array[2];
+	}
+	return;
+}
 
 void drawLine(int x1,int y1,int x2,int y2){
 	
@@ -91,16 +113,16 @@ void drawLine(int x1,int y1,int x2,int y2){
 void createLine(GLint button, GLint state, GLint x, GLint y){
 	if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){
 		switch(first){		
-				case 0:
-					xi=x; 
-					yi=hh-y;
-					first = 1;
-					break;
-				case 1:
-					xf=x;
-					yf=hh-y;
-					drawLine(xi, yi, xf, yf);
-					first = 0;
+			case 0:
+				xi=x; 
+				yi=hh-y;
+				first = 1;
+				break;
+			case 1:
+				xf=x;
+				yf=hh-y;
+				drawLine(xi, yi, xf, yf);
+				first = 0;
 		}
 	}
 	return;
@@ -118,9 +140,9 @@ void drawPoint(int x1,int y1){
 
 void createPoint(GLint button, GLint state, GLint x, GLint y){
 	if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){
-					xi=x;
-					yi=hh-y;
-					drawPoint(xi, yi);
+		xi=x;
+		yi=hh-y;
+		drawPoint(xi, yi);
 	}
 	return;
 }
@@ -231,6 +253,12 @@ void menu(int op) {
 			glColor4f(1.0,1.0,1.0,transparency);
 			colour = 1;
 			break;
+		
+		//pallette
+		case 'y':
+			glColor4f(r,g,b,transparency);
+			colour = 1;
+			break;
 			
 		//TRANSPARENCY
 		//1.0
@@ -282,6 +310,7 @@ void menu(int op) {
 		case '1':
 			transparency = 0.1;
 			break;
+			
 	}
 }
 
@@ -298,7 +327,7 @@ void MyReshape(GLsizei w, GLsizei h)
 int main(int argc, char **argv){
 	
 	glutInit(&argc, argv);
-	glutInitWindowSize(500,500);
+	glutInitWindowSize(width,height);
 	glutInitWindowPosition(500,200);
 	glutCreateWindow("Andrew O'Neill - 11424222");
 	glEnable (GL_BLEND);
@@ -330,6 +359,11 @@ int main(int argc, char **argv){
 	glutAddMenuEntry("Brown", 'm');
 	glutAddMenuEntry("Black", 'n');
 	glutAddMenuEntry("White", 'o');
+	glutAddMenuEntry("pallette", 'y');
+	
+	//SUBMENU for ColourPallette
+	int palletteSubMenu = glutCreateMenu(menu);
+	glutAddMenuEntry("Select Colour", 'p');
 	
 	//SUBMENU for Transparency
 	int transSubMenu = glutCreateMenu(menu);
@@ -349,15 +383,17 @@ int main(int argc, char **argv){
 	glutAddMenuEntry("Clear", 'z');
 	glutAddSubMenu("Shape", shapeSubMenu);
 	glutAddSubMenu("Colour", colourSubMenu);
+	glutAddSubMenu("Colour Pallette", palletteSubMenu);
 	glutAddSubMenu("Transparency", transSubMenu);
 	glutAddMenuEntry("EXIT", 'q');
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	
 	//Colour Pallete
-	glutInitWindowSize(500,500);
+	glutInitWindowSize(width,height);
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("Colour Pallette to choose colour");
 	glutDisplayFunc(colourPallette);
+	glutMouseFunc(touchPallette);
 	//glutReshapeFunc(MyReshape);
 	
 	glutMainLoop();
